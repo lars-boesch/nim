@@ -204,12 +204,16 @@ class Board extends React.Component {
 class Game extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {board: [[0, 0, 0, 1, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1]]};
+    this.state = {board: [[0, 0, 0, 1, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1]], played: false, row: 0};
   }
 
   handleClick(i, j) {
+    if (!this.state.played) {
+      this.state.played = true;
+      this.state.row = i;
+    }
     var boardcopy = this.state.board;
-    if (boardcopy[i][j] === 1) {
+    if (boardcopy[i][j] === 1 && this.state.row == i) {
       boardcopy[i][j] = 0;
       this.setState({board: boardcopy});
       var isAllZero = true;
@@ -221,7 +225,7 @@ class Game extends React.Component {
         }
       }
       if (isAllZero) {
-        this.setState({board: [[0, 0, 0, 1, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1]]});
+        this.setState({board: [[0, 0, 0, 1, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1]], played: false, row: 0});
       }
       return;
     }
@@ -229,6 +233,7 @@ class Game extends React.Component {
   }
 
   sendState() {
+    this.setState({played: false});
     var nextMove = next_move(this.state.board);
     this.setState({board: nim(this.state.board, nextMove[0], nextMove[1])});
     var isAllZero = true;
@@ -240,13 +245,13 @@ class Game extends React.Component {
       }
     }
     if (isAllZero) {
-      this.setState({board: [[0, 0, 0, 1, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1]]});
+      this.setState({board: [[0, 0, 0, 1, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1]], played: false, row: 0});
     return;
     }
   }
 
   newGame() {
-    this.setState({board: [[0, 0, 0, 1, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1]]});
+    this.setState({board: [[0, 0, 0, 1, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1]], played: false, row: 0});
   }
 
   render() {
