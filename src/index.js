@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import "./index.css";
 
 // game functions
 
@@ -138,6 +139,19 @@ function getRandomInt(min, max) {
 
 // disp
 
+function Description() {
+  return (
+    <div>
+      <p className="description">
+        Das Nim-Spiel ist ein Spiel für zwei Personen,
+        bei dem abwechselnd eine Anzahl von Gegenständen,
+        etwa Streichhölzer, weggenommen werden.
+        Gewonnen hat beim Standardspiel derjenige, der das letzte Hölzchen nimmt.
+      </p>
+    </div>
+  );
+}
+
 function Card(props) {
   return (
     <button className="card" onClick={props.onClick}>
@@ -158,7 +172,7 @@ class Board extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="center">
         <div className="board-row">
           {this.renderCard(0, 0)}
           {this.renderCard(0, 1)}
@@ -213,7 +227,7 @@ class Game extends React.Component {
       this.state.row = i;
     }
     var boardcopy = this.state.board;
-    if (boardcopy[i][j] === 1 && this.state.row == i) {
+    if (boardcopy[i][j] === 1 && this.state.row === i) {
       boardcopy[i][j] = 0;
       this.setState({board: boardcopy});
       var isAllZero = true;
@@ -225,6 +239,7 @@ class Game extends React.Component {
         }
       }
       if (isAllZero) {
+        alert("you win!!!");
         this.setState({board: [[0, 0, 0, 1, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1, 1]], played: false, row: 0});
       }
       return;
@@ -262,8 +277,9 @@ class Game extends React.Component {
           board={this.state.board}
           onClick={(i, j) => this.handleClick(i, j)}
         />
-        <button onClick={() => this.sendState()}>{"Submit"}</button>
-        <button onClick={() => this.newGame()}>{"new Game"}</button>
+        <button className="Button" onClick={() => this.sendState()}>{"Submit"}</button>
+        <button className="Button" onClick={() => this.newGame()}>{"new Game"}</button>
+        <Description/>
         </div>
       </div>
     );
